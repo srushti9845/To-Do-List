@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Task Manager</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">✅ To-Do-List</div>
+    <div class="topbar-right">
+      <span class="welcome">👋 Welcome, <strong>{{ user_name }}</strong></span>
+      <a href="{{ url_for('logout') }}" class="btn btn-outline">Logout</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="cards">
+      <div class="stat-card c-total"><span class="stat-icon">📋</span><div><h3 id="stat-total">0</h3><p>Total Tasks</p></div></div>
+      <div class="stat-card c-pending"><span class="stat-icon">⏳</span><div><h3 id="stat-pending">0</h3><p>Pending</p></div></div>
+      <div class="stat-card c-progress"><span class="stat-icon">🔄</span><div><h3 id="stat-progress">0</h3><p>In Progress</p></div></div>
+      <div class="stat-card c-done"><span class="stat-icon">✅</span><div><h3 id="stat-done">0</h3><p>Completed</p></div></div>
+      <div class="stat-card c-overdue"><span class="stat-icon">⚠️</span><div><h3 id="stat-overdue">0</h3><p>Overdue</p></div></div>
+    </section>
+
+    <section class="toolbar">
+      <button id="add-btn" class="btn btn-primary">＋ Add Task</button>
+      <input type="search" id="search" placeholder="🔍 Search by title...">
+      <select id="filter-status">
+        <option value="">All Status</option>
+        <option>Pending</option><option>In Progress</option><option>Completed</option>
+      </select>
+      <select id="filter-priority">
+        <option value="">All Priority</option>
+        <option>Low</option><option>Medium</option><option>High</option>
+      </select>
+      <select id="filter-category"><option value="">All Categories</option></select>
+      <select id="sort">
+        <option value="due_asc">Due date: earliest first</option>
+        <option value="due_desc">Due date: latest first</option>
+        <option value="newest">Newest created</option>
+      </select>
+    </section>
+
+    <section id="task-list" class="task-grid"></section>
+    <p id="empty" class="empty hidden">No tasks found. Click “Add Task” to create one! 🎯</p>
+  </main>
+
+  <!-- Add / Edit modal -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h2 id="modal-title">Add Task</h2>
+        <button id="modal-close" class="icon-btn" aria-label="Close">✖</button>
+      </div>
+      <div id="form-error" class="alert alert-error hidden"></div>
+      <form id="task-form">
+        <input type="hidden" id="task-id">
+        <label for="title">Title *</label>
+        <input type="text" id="title" maxlength="100" placeholder="e.g. Finish DBMS assignment">
+        <label for="description">Description</label>
+        <textarea id="description" rows="3" placeholder="Details about the task..."></textarea>
+        <div class="row">
+          <div><label for="priority">Priority</label>
+            <select id="priority"><option>Low</option><option selected>Medium</option><option>High</option></select></div>
+          <div><label for="status">Status</label>
+            <select id="status"><option>Pending</option><option>In Progress</option><option>Completed</option></select></div>
+        </div>
+        <div class="row">
+          <div><label for="due_date">Due date</label><input type="date" id="due_date"></div>
+          <div><label for="category">Category (optional)</label><input type="text" id="category" maxlength="40" placeholder="e.g. College"></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" id="cancel-btn" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
